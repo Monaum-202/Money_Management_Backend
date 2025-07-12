@@ -3,8 +3,8 @@ package com.monaum.Money_Management.security;
 import java.io.IOException;
 
 import com.monaum.Money_Management.model.MyUserDetail;
-import com.monaum.Money_Management.security.tokens.TokenRepo;
-import com.monaum.Money_Management.security.user.UserService;
+import com.monaum.Money_Management.module.tokens.TokenRepo;
+import com.monaum.Money_Management.module.user.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;

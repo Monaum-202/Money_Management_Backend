@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.auth;
+package com.monaum.Money_Management.module.auth;
 
 import com.monaum.Money_Management.enums.ResponseStatusType;
 import com.monaum.Money_Management.model.ResponseBuilder;

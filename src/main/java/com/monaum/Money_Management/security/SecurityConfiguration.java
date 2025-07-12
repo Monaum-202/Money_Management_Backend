@@ -2,8 +2,8 @@ package com.monaum.Money_Management.security;
 
 import com.monaum.Money_Management.exception.CustomAccessDeniedHandler;
 import com.monaum.Money_Management.exception.CustomAuthenticationEntryPoint;
-import com.monaum.Money_Management.security.auth.LogoutService;
-import com.monaum.Money_Management.security.user.UserService;
+import com.monaum.Money_Management.module.auth.LogoutService;
+import com.monaum.Money_Management.module.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

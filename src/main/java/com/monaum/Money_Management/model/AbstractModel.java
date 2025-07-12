@@ -1,6 +1,7 @@
 package com.monaum.Money_Management.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,20 +24,20 @@ import lombok.Data;
 public abstract class AbstractModel<U> implements Serializable {
 
 	@CreatedBy
-	@Column(name = "zuserid", length = 25)
-	private U zuserid;
+	@Column(name = "createdBy", length = 25)
+	private U createdBy;
 
 	@LastModifiedBy
-	@Column(name = "zuuserid", length = 25)
-	private U zuuserid;
+	@Column(name = "updatedBy", length = 25)
+	private U updatedBy;
 
 	@CreationTimestamp
-	@Column(name = "ztime", nullable = false, updatable = false)
+	@Column(name = "createdAt", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date ztime;
+	private LocalDateTime createdAt;
 
 	@UpdateTimestamp
-	@Column(name = "zutime")
+	@Column(name = "updatedAt")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date zutime;
+	private LocalDateTime updatedAt;
 }

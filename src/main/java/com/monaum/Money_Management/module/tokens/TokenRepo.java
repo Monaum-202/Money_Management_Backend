@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.tokens;
+package com.monaum.Money_Management.module.tokens;
 
 import java.util.List;
 import java.util.Optional;

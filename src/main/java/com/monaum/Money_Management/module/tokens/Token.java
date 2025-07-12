@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.tokens;
+package com.monaum.Money_Management.module.tokens;
 
 import java.io.Serializable;
 

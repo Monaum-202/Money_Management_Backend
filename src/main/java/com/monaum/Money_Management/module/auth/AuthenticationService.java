@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.auth;
+package com.monaum.Money_Management.module.auth;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,11 +7,11 @@ import com.monaum.Money_Management.enums.TokenType;
 import com.monaum.Money_Management.exception.CustomException;
 import com.monaum.Money_Management.model.MyUserDetail;
 import com.monaum.Money_Management.security.JwtService;
-import com.monaum.Money_Management.security.tokens.Token;
-import com.monaum.Money_Management.security.tokens.TokenRepo;
-import com.monaum.Money_Management.security.user.User;
-import com.monaum.Money_Management.security.user.UserRepo;
-import com.monaum.Money_Management.security.user.UserService;
+import com.monaum.Money_Management.module.tokens.Token;
+import com.monaum.Money_Management.module.tokens.TokenRepo;
+import com.monaum.Money_Management.module.user.User;
+import com.monaum.Money_Management.module.user.UserRepo;
+import com.monaum.Money_Management.module.user.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

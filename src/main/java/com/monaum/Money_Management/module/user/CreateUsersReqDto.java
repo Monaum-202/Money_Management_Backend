@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.user;
+package com.monaum.Money_Management.module.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
