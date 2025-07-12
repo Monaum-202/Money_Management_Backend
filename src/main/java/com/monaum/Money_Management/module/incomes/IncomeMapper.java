@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class IncomeMapper {
@@ -44,6 +47,12 @@ public class IncomeMapper {
                 .description(income.getDescription())
                 .date(income.getDate())
                 .build();
+    }
+
+    public List<IncomeResDto> toDtoList(List<Income> incomes) {
+        return incomes.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
 }
