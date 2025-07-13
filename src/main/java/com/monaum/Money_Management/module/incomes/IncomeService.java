@@ -1,5 +1,7 @@
 package com.monaum.Money_Management.module.incomes;
 
+import com.monaum.Money_Management.exception.CustomException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,17 @@ public class IncomeService {
     @Autowired private IncomeRepo incomeRepo;
     @Autowired private IncomeMapper incomeMapper;
 
-    public Income createIncome(CreateIncomeReqDto dto) {
-        Income income = incomeMapper.toEntity(dto);
-        return incomeRepo.save(income);
+    @Transactional
+    public IncomeResDto createIncome(CreateIncomeReqDto reqDto) throws CustomException {
+
+        Income income = incomeMapper.toEntity(reqDto);
+        income = incomeRepo.save(income);
+
+        return new IncomeResDto(income);
     }
+
+
+
 
 //    Income income = incomeRepo.findById(id).orElseThrow();
 //    IncomeResDto resDto = incomeMapper.toDto(income);
