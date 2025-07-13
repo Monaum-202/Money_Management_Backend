@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "incomes")
 @EqualsAndHashCode(callSuper = true)
-public class Income extends AbstractModel<Long> {
+public class Income extends AbstractModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

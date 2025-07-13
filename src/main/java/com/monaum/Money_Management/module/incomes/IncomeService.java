@@ -1,14 +1,21 @@
 package com.monaum.Money_Management.module.incomes;
 
 import com.monaum.Money_Management.exception.CustomException;
+import com.monaum.Money_Management.model.BaseService;
+import com.monaum.Money_Management.module.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class IncomeService {
+public class IncomeService extends BaseService {
 
     @Autowired private IncomeRepo incomeRepo;
     @Autowired private IncomeMapper incomeMapper;
@@ -19,9 +26,19 @@ public class IncomeService {
         Income income = incomeMapper.toEntity(reqDto);
         income = incomeRepo.save(income);
 
-        return new IncomeResDto(income);
+        return incomeMapper.toDto(income);
     }
 
+    public IncomeResDto getIncomeById(Long id) throws CustomException {
+        Income income = incomeRepo.findById(id).orElseThrow(() -> new CustomException("Income not found", HttpStatus.NOT_FOUND));
+
+        return incomeMapper.toDto(income);
+    }
+
+    public Page<IncomeResDto> getAllIncomesByUser(Pageable pageable) {
+        Page<Income> incomes = incomeRepo.findAllByCreatedBy(super.getAuthenticatedUser(), pageable);
+        return incomes.map(incomeMapper::toDto);
+    }
 
 
 

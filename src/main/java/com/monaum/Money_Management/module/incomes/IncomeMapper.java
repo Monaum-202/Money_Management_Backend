@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class IncomeMapper {
 
-    @Autowired private WalletRepo walletRepository;
-    @Autowired private SourceRepo sourceRepository;
+    @Autowired
+    private WalletRepo walletRepository;
+    @Autowired
+    private SourceRepo sourceRepository;
 
     public Income toEntity(CreateIncomeReqDto dto) {
-        Wallet wallet = walletRepository.findById(dto.getWallet())
-                .orElseThrow(() -> new CustomException("Wallet not found", HttpStatus.NOT_FOUND));
+        Wallet wallet = walletRepository.findById(dto.getWallet()).orElseThrow(() -> new CustomException("Wallet not found", HttpStatus.NOT_FOUND));
 
-        Source source = sourceRepository.findById(dto.getSource())
-                .orElseThrow(() -> new CustomException("Source not found", HttpStatus.NOT_FOUND));
+        Source source = sourceRepository.findById(dto.getSource()).orElseThrow(() -> new CustomException("Source not found", HttpStatus.NOT_FOUND));
 
         return Income.builder()
                 .wallet(wallet)
@@ -50,9 +50,7 @@ public class IncomeMapper {
     }
 
     public List<IncomeResDto> toDtoList(List<Income> incomes) {
-        return incomes.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+        return incomes.stream().map(this::toDto).collect(Collectors.toList());
     }
 
 }
