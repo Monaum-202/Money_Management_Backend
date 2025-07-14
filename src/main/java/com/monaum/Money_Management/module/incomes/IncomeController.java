@@ -29,6 +29,12 @@ public class IncomeController {
         return ResponseBuilder.build(ResponseStatusType.CREATE_SUCCESS, resData);
     }
 
+    @PutMapping
+    public ResponseEntity<SuccessResponse<IncomeResDto>> updateIncome(@Valid @RequestBody UpdateIncomeReqDto dto) {
+        IncomeResDto resData = incomeService.updateIncome(dto);
+        return ResponseBuilder.build(ResponseStatusType.UPDATE_SUCCESS, resData);
+    }
+
 //    @GetMapping
 //    public ResponseEntity<SuccessResponse<List<IncomeResDto>>> getAllIncome() {
 //        List<IncomeResDto> resData = incomeService.getAllTags();

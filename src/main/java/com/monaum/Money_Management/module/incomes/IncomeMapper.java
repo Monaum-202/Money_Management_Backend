@@ -37,6 +37,18 @@ public class IncomeMapper {
                 .build();
     }
 
+    public void updateEntityFromDto(UpdateIncomeReqDto dto, Income income) {
+        Wallet wallet = walletRepository.findById(dto.getWalletId()).orElseThrow(() -> new CustomException("Wallet not found", HttpStatus.NOT_FOUND));
+        Source source = sourceRepository.findById(dto.getSourceId()).orElseThrow(() -> new CustomException("Source not found", HttpStatus.NOT_FOUND));
+
+        income.setWallet(wallet);
+        income.setSource(source);
+        income.setAmount(dto.getAmount());
+        income.setCurrency(dto.getCurrency());
+        income.setDescription(dto.getDescription());
+        income.setDate(dto.getDate());
+    }
+
     public IncomeResDto toDto(Income income) {
         return IncomeResDto.builder()
                 .id(income.getId())
