@@ -8,6 +8,10 @@ import java.lang.annotation.*;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Documented
 @Constraint(validatedBy = ExistsInDatabaseValidator.class)

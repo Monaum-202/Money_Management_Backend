@@ -22,6 +22,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
+
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

@@ -4,6 +4,11 @@ import com.monaum.Money_Management.model.AbstractModel;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
+
 @Entity
 @Data
 @Builder

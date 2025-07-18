@@ -10,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
+
 @Getter
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {

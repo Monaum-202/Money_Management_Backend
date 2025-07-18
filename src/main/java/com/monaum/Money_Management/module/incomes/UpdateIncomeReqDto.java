@@ -1,8 +1,6 @@
 package com.monaum.Money_Management.module.incomes;
 
-import com.monaum.Money_Management.annotations.ExistsInDatabase;
-import com.monaum.Money_Management.module.sources.Source;
-import com.monaum.Money_Management.module.wallets.Wallet;
+
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Data
 @Builder

@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 public class ExistsInDatabaseValidator implements ConstraintValidator<ExistsInDatabase, Long> {
 

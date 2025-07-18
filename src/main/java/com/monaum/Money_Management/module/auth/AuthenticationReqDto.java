@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Data
 @Builder
@@ -12,6 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationReqDto {
 
-	private String email;
+	private String login;
 	private String password;
 }

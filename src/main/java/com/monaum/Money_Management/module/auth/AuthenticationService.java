@@ -2,6 +2,7 @@ package com.monaum.Money_Management.module.auth;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import com.monaum.Money_Management.enums.TokenType;
 import com.monaum.Money_Management.exception.CustomException;
@@ -27,10 +28,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 
 /**
- * Zubayer Ahamed
- * 
- * @since Jun 22, 2025
+ * Monaum Hossain
+ * @since jul 18, 2025
  */
+
 @Service
 public class AuthenticationService {
 
@@ -46,6 +47,8 @@ public class AuthenticationService {
 		// 1. Check if user already exists
 		if (userRepo.findByEmailIgnoreCase(request.getEmail()).isPresent()) {
 			throw new CustomException("Email is already registered.", HttpStatus.BAD_REQUEST);
+		}else if (userRepo.findByUserNameIgnoreCase(request.getUserName()).isPresent()) {
+			throw new CustomException("Username is already registered.", HttpStatus.BAD_REQUEST);
 		}
 
 		// 2. Create user
@@ -59,107 +62,51 @@ public class AuthenticationService {
 
 		user = userRepo.save(user);
 
-//		// TODO: Create User preferences with system default values
-//		UserPreference up = UserPreference.builder()
-//				.userId(user.getId())
-//				.language(Language.ENGLISH.name())
-//				.homeView("TODAY")
-//				.timeZone("Asia/Dhaka")
-//				.timeFormat(TimeFormat.HOUR_12.name())
-//				.dateFormat(DateFormat.DD_MMM_YYYY.name())
-//				.weekStart(Days.SUN.name())
-//				.nextWeek(Days.SUN.name())
-//				.weekend(Days.FRI.name())
-//				.enabledBrowserNoti(false)
-//				.enabledEmailNoti(false)
-//				.enabledPushNoti(false)
-//				.enabledSmsNoti(false)
-//				.build();
-//
-//		userPreferenceRepo.save(up);
-//
-//		// 3. Create workspace (business)
-//		Workspace workspace = Workspace.builder()
-//				.name(user.getFirstName() + "'s Workspace")
-//				.isSystemDefined(Boolean.TRUE)
-//				.isActive(Boolean.TRUE)
-//				.build();
-//
-//		workspace = workspaceRepo.save(workspace);
-//
-//		// 4. Create user-business relationship
-//		UserWorkspace userWorkspace = UserWorkspace.builder()
-//				.userId(user.getId())
-//				.workspaceId(workspace.getId())
-//				.isPrimary(Boolean.TRUE)
-//				.isAdmin(Boolean.TRUE)
-//				.isCollaborator(Boolean.FALSE).build();
-//
-//		userWorkspace = userWorkspacesRepo.save(userWorkspace);
-//
-//		// 5. Create default project (Index)
-//		Project project = Project.builder()
-//				.workspaceId(workspace.getId())
-//				.name("Inbox")
-//				.color("#000000")
-//				.seqn(-999)
-//				.layoutType(LayoutType.LIST)
-//				.isSystemDefined(Boolean.TRUE)
-//				.isFavourite(Boolean.FALSE)
-//				.isInheritSettings(Boolean.FALSE)
-//				.build();
-//
-//		project  = projectRepo.save(project);
-//
-//		// 6. Create a default status (Completed)
-//		Workflow workflow = Workflow.builder()
-//				.referenceId(workspace.getId())
-//				.name("Completed")
-//				.isSystemDefined(Boolean.TRUE)
-//				.seqn(999)
-//				.color("#000000")
-//				.build();
-//
-//		workflow = workflowRepo.save(workflow);
-
-		// 7. Generate JWT token and Refresh token
+		// 3. Generate JWT token and Refresh token
 		var jwtToken = jwtService.generateToken(new UserDetailsImpl(user));
 		var refreshToken = jwtService.generateRefreshToken(new UserDetailsImpl(user));
 
-		// 8. Save User Token
+		// 4. Save User Token
 		saveUserToken(user.getId(), jwtToken);
 
-		// 9. Return token
+		// 5. Return token
 		return AuthenticationResDto.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
 	}
 
 	@Transactional
 	public AuthenticationResDto authenticate(AuthenticationReqDto request) {
-		// 1. Find user by email
-		User xusers = userRepo.findByEmailIgnoreCase(request.getEmail()).orElseThrow(() -> new RuntimeException("Email is not registered."));
+		// 1. Find user by username or email
+		Optional<User> userOp = userRepo.findByUserNameIgnoreCase(request.getLogin());
+		if (userOp.isEmpty()) userOp = userRepo.findByEmailIgnoreCase(request.getLogin());
+
+		System.out.println("User found: " + userOp.isPresent());
+		User user = userOp.orElseThrow(() -> new RuntimeException("User not found with provided username/email."));
 
 		// 2. Check if user is active
-		if (Boolean.FALSE.equals(xusers.getIsActive())) {
+		if (Boolean.FALSE.equals(user.getIsActive())) {
 			throw new RuntimeException("User account is inactive.");
 		}
 
 		// 3. Verify password
-		if (!passwordEncoder.matches(request.getPassword(), xusers.getPassword())) {
+		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			throw new RuntimeException("Invalid credentials.");
 		}
 
+		// 4. Generate token
+		var jwtToken = jwtService.generateToken(new UserDetailsImpl(user));
+		var refreshToken = jwtService.generateRefreshToken(new UserDetailsImpl(user));
 
-		// 7. Generate token
-		var jwtToken = jwtService.generateToken(new UserDetailsImpl(xusers));
-		var refreshToken = jwtService.generateRefreshToken(new UserDetailsImpl(xusers));
+		// 5. Revoke tokens and save new token
+		revokeAllUserTokens(user.getId());
+		saveUserToken(user.getId(), jwtToken);
 
-		// 8. Revoke tokens and save new token
-		revokeAllUserTokens(xusers.getId());
-		saveUserToken(xusers.getId(), jwtToken);
-
-		// 9. Return token
-		return AuthenticationResDto.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
+		// 6. Return token
+		return AuthenticationResDto.builder()
+				.accessToken(jwtToken)
+				.refreshToken(refreshToken)
+				.build();
 	}
+
 
 	@Transactional
 	void revokeAllUserTokens(Long zuser) {

@@ -2,6 +2,10 @@ package com.monaum.Money_Management.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 public class CustomException extends RuntimeException {
 
