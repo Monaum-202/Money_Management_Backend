@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class CreateUsersReqDto {
 
 	private String email;
+	private String userName;
 	private String password;
 	private String firstName;
 	private String lastName;
@@ -23,6 +24,7 @@ public class CreateUsersReqDto {
 	public User getBean() {
 		return User.builder()
 				.email(email)
+				.userName(userName)
 				.password(password)
 				.firstName(firstName)
 				.lastName(lastName)

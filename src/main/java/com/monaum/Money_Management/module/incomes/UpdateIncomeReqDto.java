@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,12 +21,12 @@ public class UpdateIncomeReqDto {
     private Long id;
 
     @NotNull(message = "Source ID is required.")
-    @ExistsInDatabase(entity = Source.class, message = "Source not found")
-    private Long sourceId;
+//    @ExistsInDatabase(entity = Source.class, message = "Source not found")
+    private Long source;
 
     @NotNull(message = "Wallet ID is required.")
-    @ExistsInDatabase(entity = Wallet.class, message = "Wallet not found")
-    private Long walletId;
+//    @ExistsInDatabase(entity = Wallet.class, message = "Wallet not found")
+    private Long wallet;
 
     @NotNull(message = "Amount is required.")
     @DecimalMin(value = "0.0", inclusive = false, message = "Amount must be greater than 0.")
@@ -37,6 +39,5 @@ public class UpdateIncomeReqDto {
     @Size(max = 255, message = "Description can't exceed 255 characters.")
     private String description;
 
-    @NotBlank(message = "Date is required.")
-    private String date; // Consider using LocalDate for better date validation
+    private LocalDate date; // Consider using LocalDate for better date validation
 }

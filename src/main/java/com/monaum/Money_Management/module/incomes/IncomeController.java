@@ -35,6 +35,12 @@ public class IncomeController {
         return ResponseBuilder.build(ResponseStatusType.UPDATE_SUCCESS, resData);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SuccessResponse<Void>> deleteIncome(@PathVariable Long id) {
+        incomeService.deleteIncome(id);
+        return ResponseBuilder.build(ResponseStatusType.DELETE_SUCCESS, null);
+    }
+
 //    @GetMapping
 //    public ResponseEntity<SuccessResponse<List<IncomeResDto>>> getAllIncome() {
 //        List<IncomeResDto> resData = incomeService.getAllTags();
@@ -52,4 +58,9 @@ public class IncomeController {
         return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, result);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<SuccessResponse<IncomeResDto>> getIncomeById(@PathVariable Long id) {
+        IncomeResDto resData = incomeService.getIncomeById(id);
+        return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, resData);
+    }
 }

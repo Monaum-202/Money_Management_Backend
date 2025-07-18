@@ -1,10 +1,10 @@
 package com.monaum.Money_Management.module.incomes;
 
 import com.monaum.Money_Management.model.AbstractModel;
-import com.monaum.Money_Management.module.sources.Source;
-import com.monaum.Money_Management.module.wallets.Wallet;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -20,13 +20,12 @@ public class Income extends AbstractModel {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_id", nullable = false)
-    private Source source;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "wallet_id", nullable = false)
-    private Wallet wallet;
+    @Column(name = "source_id", nullable = false)
+    private Long source;
+
+    @Column(name = "wallet_id", nullable = false)
+    private Long wallet;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
@@ -38,6 +37,6 @@ public class Income extends AbstractModel {
     private String description;
 
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
 
 }

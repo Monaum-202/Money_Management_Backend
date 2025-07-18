@@ -5,7 +5,9 @@ import com.monaum.Money_Management.module.sources.SourceRepo;
 import com.monaum.Money_Management.module.wallets.Wallet;
 import com.monaum.Money_Management.module.wallets.WalletRepo;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,20 +15,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateIncomeReqDto {
 
-
-    @NotBlank(message = "Source required.")
+    @NotNull(message = "Source required.")
     private Long source;
 
-    @NotBlank(message = "Wallet required.")
+    @NotNull(message = "Wallet required.")
     private Long wallet;
 
-    @NotBlank(message = "Amount required.")
+    @NotNull(message = "Amount is required.")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Amount must be greater than 0.")
     private Double amount;
 
     @NotBlank(message = "Currency required.")
@@ -35,6 +39,6 @@ public class CreateIncomeReqDto {
     @NotBlank(message = "Description required.")
     private String description;
 
-    private String date;
+    private LocalDate date;
 
 }

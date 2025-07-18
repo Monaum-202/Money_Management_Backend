@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.monaum.Money_Management.enums.TokenType;
 import com.monaum.Money_Management.exception.CustomException;
-import com.monaum.Money_Management.model.MyUserDetail;
 import com.monaum.Money_Management.security.JwtService;
 import com.monaum.Money_Management.module.tokens.Token;
 import com.monaum.Money_Management.module.tokens.TokenRepo;
 import com.monaum.Money_Management.module.user.User;
 import com.monaum.Money_Management.module.user.UserRepo;
 import com.monaum.Money_Management.module.user.UserService;
+import com.monaum.Money_Management.security.UserDetailsImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -44,7 +44,7 @@ public class AuthenticationService {
 	@Transactional
 	public AuthenticationResDto register(RegisterRequestDto request) {
 		// 1. Check if user already exists
-		if (userRepo.findByEmail(request.getEmail()).isPresent()) {
+		if (userRepo.findByEmailIgnoreCase(request.getEmail()).isPresent()) {
 			throw new CustomException("Email is already registered.", HttpStatus.BAD_REQUEST);
 		}
 
@@ -53,6 +53,7 @@ public class AuthenticationService {
 				.firstName(request.getFirstName())
 				.lastName(request.getLastName())
 				.email(request.getEmail())
+				.userName(request.getUserName())
 				.password(passwordEncoder.encode(request.getPassword()))
 				.isActive(Boolean.TRUE).build();
 
@@ -122,8 +123,8 @@ public class AuthenticationService {
 //		workflow = workflowRepo.save(workflow);
 
 		// 7. Generate JWT token and Refresh token
-		var jwtToken = jwtService.generateToken(new MyUserDetail(user));
-		var refreshToken = jwtService.generateRefreshToken(new MyUserDetail(user));
+		var jwtToken = jwtService.generateToken(new UserDetailsImpl(user));
+		var refreshToken = jwtService.generateRefreshToken(new UserDetailsImpl(user));
 
 		// 8. Save User Token
 		saveUserToken(user.getId(), jwtToken);
@@ -135,7 +136,7 @@ public class AuthenticationService {
 	@Transactional
 	public AuthenticationResDto authenticate(AuthenticationReqDto request) {
 		// 1. Find user by email
-		User xusers = userRepo.findByEmail(request.getEmail()).orElseThrow(() -> new RuntimeException("Email is not registered."));
+		User xusers = userRepo.findByEmailIgnoreCase(request.getEmail()).orElseThrow(() -> new RuntimeException("Email is not registered."));
 
 		// 2. Check if user is active
 		if (Boolean.FALSE.equals(xusers.getIsActive())) {
@@ -149,8 +150,8 @@ public class AuthenticationService {
 
 
 		// 7. Generate token
-		var jwtToken = jwtService.generateToken(new MyUserDetail(xusers));
-		var refreshToken = jwtService.generateRefreshToken(new MyUserDetail(xusers));
+		var jwtToken = jwtService.generateToken(new UserDetailsImpl(xusers));
+		var refreshToken = jwtService.generateRefreshToken(new UserDetailsImpl(xusers));
 
 		// 8. Revoke tokens and save new token
 		revokeAllUserTokens(xusers.getId());
@@ -190,14 +191,14 @@ public class AuthenticationService {
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		final String refreshToken;
-		final String userId;
+		final String email;
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 			return;
 		}
 		refreshToken = authHeader.substring(7);
-		userId = jwtService.extractUsername(refreshToken);
-		if (StringUtils.isNotBlank(userId)) {
-			MyUserDetail userDetails = (MyUserDetail) userService.loadUserByUsername(userId);
+		email = jwtService.extractUsername(refreshToken);
+		if (StringUtils.isNotBlank(email)) {
+			UserDetailsImpl userDetails = (UserDetailsImpl) userService.loadUserByUsername(email);
 
 			if (jwtService.isTokenValid(refreshToken, userDetails)) {
 				var accessToken = jwtService.generateToken(userDetails);

@@ -1,6 +1,6 @@
 package com.monaum.Money_Management.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.monaum.Money_Management.module.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,22 +14,21 @@ import java.util.Collections;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private final Long id;
-    private final String email;
-    @JsonIgnore
-    private final String password;
-
-    public static UserDetailsImpl build(User user) {
-        return new UserDetailsImpl(
-                user.getId(),
-                user.getEmail(),
-                user.getPassword()
-        );
-    }
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // No roles
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getUserName();
     }
 
     @Override
@@ -52,9 +51,7 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
+    public Long getId() {
+        return user.getId();
     }
-
 }
