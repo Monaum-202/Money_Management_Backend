@@ -1,5 +1,6 @@
 package com.monaum.Money_Management.module.incomes;
 
+import com.monaum.Money_Management.annotations.RestApiController;
 import com.monaum.Money_Management.enums.ResponseStatusType;
 import com.monaum.Money_Management.model.ResponseBuilder;
 import com.monaum.Money_Management.model.SuccessResponse;
@@ -22,7 +23,7 @@ import java.util.List;
  * @since jul 18, 2025
  */
 
-@RestController
+@RestApiController
 @RequestMapping("/api/incomes")
 public class IncomeController {
 

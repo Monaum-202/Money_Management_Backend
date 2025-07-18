@@ -1,5 +1,6 @@
 package com.monaum.Money_Management.module.auth;
 
+import com.monaum.Money_Management.annotations.RestApiController;
 import com.monaum.Money_Management.enums.ResponseStatusType;
 import com.monaum.Money_Management.model.ResponseBuilder;
 import com.monaum.Money_Management.model.SuccessResponse;
@@ -19,7 +20,7 @@ import java.io.IOException;
  * @since jul 18, 2025
  */
 
-@RestController
+@RestApiController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
 
