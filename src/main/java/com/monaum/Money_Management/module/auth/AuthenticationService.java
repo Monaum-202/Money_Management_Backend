@@ -138,23 +138,34 @@ public class AuthenticationService {
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		final String refreshToken;
-		final String email;
+		final String usernameOrEmail;
+
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
 			return;
 		}
+
 		refreshToken = authHeader.substring(7);
-		email = jwtService.extractUsername(refreshToken);
-		if (StringUtils.isNotBlank(email)) {
-			UserDetailsImpl userDetails = (UserDetailsImpl) userService.loadUserByUsername(email);
+		usernameOrEmail = jwtService.extractUsername(refreshToken); // contains either username or email
+
+		if (StringUtils.isNotBlank(usernameOrEmail)) {
+			UserDetailsImpl userDetails = (UserDetailsImpl) userService.loadUserByUsername(usernameOrEmail);
 
 			if (jwtService.isTokenValid(refreshToken, userDetails)) {
-				var accessToken = jwtService.generateToken(userDetails);
-				revokeAllUserTokens(Long.valueOf(userDetails.getUsername()));
-				saveUserToken(Long.valueOf(userDetails.getUsername()), accessToken);
-				var authResponse = AuthenticationResDto.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+				String accessToken = jwtService.generateToken(userDetails);
+				Long userId = userDetails.getUser().getId();
+
+				revokeAllUserTokens(userId);
+				saveUserToken(userId, accessToken);
+
+				AuthenticationResDto authResponse = AuthenticationResDto.builder()
+						.accessToken(accessToken)
+						.refreshToken(refreshToken)
+						.build();
+
 				new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
 			}
 		}
 	}
+
 
 }
