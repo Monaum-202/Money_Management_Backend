@@ -29,21 +29,38 @@ public class IncomeController {
 
     @Autowired private IncomeService incomeService;
 
+    @GetMapping
+    public ResponseEntity<?> getIncomes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<IncomeResDto> result = incomeService.getAllByUser(pageable);
+
+        return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, result);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SuccessResponse<IncomeResDto>> getIncomeById(@PathVariable Long id) {
+        IncomeResDto resData = incomeService.getById(id);
+        return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, resData);
+    }
+
     @PostMapping
-    public ResponseEntity<SuccessResponse<IncomeResDto>> createIncome(@Valid @RequestBody CreateIncomeReqDto reqDto) {
-        IncomeResDto resData = incomeService.createIncome(reqDto);
+    public ResponseEntity<SuccessResponse<IncomeResDto>> create(@Valid @RequestBody CreateIncomeReqDto reqDto) {
+        IncomeResDto resData = incomeService.create(reqDto);
         return ResponseBuilder.build(ResponseStatusType.CREATE_SUCCESS, resData);
     }
 
     @PutMapping
-    public ResponseEntity<SuccessResponse<IncomeResDto>> updateIncome(@Valid @RequestBody UpdateIncomeReqDto dto) {
-        IncomeResDto resData = incomeService.updateIncome(dto);
+    public ResponseEntity<SuccessResponse<IncomeResDto>> update(@Valid @RequestBody UpdateIncomeReqDto dto) {
+        IncomeResDto resData = incomeService.update(dto);
         return ResponseBuilder.build(ResponseStatusType.UPDATE_SUCCESS, resData);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SuccessResponse<Void>> deleteIncome(@PathVariable Long id) {
-        incomeService.deleteIncome(id);
+    public ResponseEntity<SuccessResponse<Void>> delete(@PathVariable Long id) {
+        incomeService.delete(id);
         return ResponseBuilder.build(ResponseStatusType.DELETE_SUCCESS, null);
     }
 
@@ -52,21 +69,4 @@ public class IncomeController {
 //        List<IncomeResDto> resData = incomeService.getAllTags();
 //        return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, resData);
 //    }
-
-    @GetMapping
-    public ResponseEntity<?> getIncomes(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<IncomeResDto> result = incomeService.getAllIncomesByUser(pageable);
-
-        return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, result);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<SuccessResponse<IncomeResDto>> getIncomeById(@PathVariable Long id) {
-        IncomeResDto resData = incomeService.getIncomeById(id);
-        return ResponseBuilder.build(ResponseStatusType.READ_SUCCESS, resData);
-    }
 }

@@ -38,7 +38,7 @@ public class Income extends AbstractModel {
     @Column(name = "currency", length = 10, nullable = false)
     private String currency;
 
-    @Column(name = "description", length = 255, nullable = true)
+    @Column(name = "description", length = 255)
     private String description;
 
     @Column(name = "date")

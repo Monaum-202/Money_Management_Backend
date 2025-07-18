@@ -25,36 +25,35 @@ public class IncomeService {
     @Autowired private SecurityUtil securityUtil;
 
     @Transactional
-    public IncomeResDto createIncome(CreateIncomeReqDto reqDto) throws CustomException {
+    public IncomeResDto create(CreateIncomeReqDto reqDto) throws CustomException {
         Income income = incomeMapper.toEntity(reqDto);
         income = incomeRepo.save(income);
 
         return incomeMapper.toDto(income);
     }
 
-    public IncomeResDto getIncomeById(Long id) throws CustomException {
+    public IncomeResDto getById(Long id) throws CustomException {
         Income income = incomeRepo.findById(id).orElseThrow(() -> new CustomException("Income not found", HttpStatus.NOT_FOUND));
 
         return incomeMapper.toDto(income);
     }
 
-    public Page<IncomeResDto> getAllIncomesByUser(Pageable pageable) {
+    public Page<IncomeResDto> getAllByUser(Pageable pageable) {
         User currentUser = securityUtil.getCurrentUser().orElseThrow(() -> new CustomException("User not authenticated", HttpStatus.UNAUTHORIZED));
 
         Page<Income> incomes = incomeRepo.findAllByCreatedBy(currentUser, pageable);
         return incomes.map(incomeMapper::toDto);
     }
 
-
     @Transactional
-    public IncomeResDto updateIncome(UpdateIncomeReqDto dto) {
+    public IncomeResDto update(UpdateIncomeReqDto dto) {
         Income income = incomeRepo.getReferenceById(dto.getId());
         incomeMapper.toEntity(dto, income);
 
         return incomeMapper.toDto(incomeRepo.save(income));
     }
 
-    public void deleteIncome(Long id) throws CustomException {
+    public void delete(Long id) throws CustomException {
         Income income = incomeRepo.findById(id).orElseThrow(() -> new CustomException("Income not found", HttpStatus.NOT_FOUND));
         incomeRepo.delete(income);
     }
