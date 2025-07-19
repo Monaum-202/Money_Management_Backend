@@ -1,7 +1,7 @@
-package com.monaum.Money_Management.security.auth;
+package com.monaum.Money_Management.module.auth;
 
-import com.monaum.Money_Management.security.tokens.Token;
-import com.monaum.Money_Management.security.tokens.TokenRepo;
+import com.monaum.Money_Management.module.tokens.Token;
+import com.monaum.Money_Management.module.tokens.TokenRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Service
 public class LogoutService implements LogoutHandler {

@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.auth;
+package com.monaum.Money_Management.module.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Zubayer Ahamed
- * @since Jun 22, 2025
+ * Monaum Hossain
+ * @since jul 18, 2025
  */
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,5 +19,6 @@ public class RegisterRequestDto {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String userName;
 	private String password;
 }

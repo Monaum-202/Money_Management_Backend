@@ -2,10 +2,12 @@ package com.monaum.Money_Management.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 public class CustomException extends RuntimeException {
-
-	private static final long serialVersionUID = 6837468368181257192L;
 
 	private final HttpStatus status;
 

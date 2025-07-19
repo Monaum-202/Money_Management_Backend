@@ -2,9 +2,8 @@ package com.monaum.Money_Management.security;
 
 import java.io.IOException;
 
-import com.monaum.Money_Management.model.MyUserDetail;
-import com.monaum.Money_Management.security.tokens.TokenRepo;
-import com.monaum.Money_Management.security.user.UserService;
+import com.monaum.Money_Management.module.tokens.TokenRepo;
+import com.monaum.Money_Management.module.user.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
@@ -21,6 +20,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Component
 @RequiredArgsConstructor
@@ -32,13 +35,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(
-		@NonNull HttpServletRequest request, 
-		@NonNull HttpServletResponse response, 
-		@NonNull FilterChain filterChain) throws ServletException, IOException {
+			@NonNull HttpServletRequest request,
+			@NonNull HttpServletResponse response,
+			@NonNull FilterChain filterChain) throws ServletException, IOException {
 
 		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		final String jwtToken;
-		final String userId;
+		final String username;
+//		final String email;
 
 		if(StringUtils.isBlank(authHeader) || !authHeader.startsWith("Bearer ")) {
 			filterChain.doFilter(request, response);
@@ -46,9 +50,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		}
 
 		jwtToken = authHeader.substring(7);
-		userId = jwtService.extractUsername(jwtToken);
-		if(StringUtils.isNotBlank(userId) && SecurityContextHolder.getContext().getAuthentication() == null) {  // User id not null && user is not authenticated yet
-			MyUserDetail userDetails = (MyUserDetail) usersService.loadUserByUsername(userId);
+		username = jwtService.extractUsername(jwtToken);
+		if(StringUtils.isNotBlank(username) && SecurityContextHolder.getContext().getAuthentication() == null) {  // User id not null && user is not authenticated yet
+			UserDetailsImpl userDetails = (UserDetailsImpl) usersService.loadUserByUsername(username);
 
 			var isTokenValid = xtokensRepo.findByToken(jwtToken).map(t -> !t.isExpired() && !t.isRevoked()).orElse(false);
 

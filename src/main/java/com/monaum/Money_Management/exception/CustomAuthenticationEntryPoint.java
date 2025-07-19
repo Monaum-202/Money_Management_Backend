@@ -13,6 +13,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {

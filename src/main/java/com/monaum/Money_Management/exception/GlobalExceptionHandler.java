@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

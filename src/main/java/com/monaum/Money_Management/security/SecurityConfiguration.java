@@ -2,8 +2,10 @@ package com.monaum.Money_Management.security;
 
 import com.monaum.Money_Management.exception.CustomAccessDeniedHandler;
 import com.monaum.Money_Management.exception.CustomAuthenticationEntryPoint;
-import com.monaum.Money_Management.security.auth.LogoutService;
-import com.monaum.Money_Management.security.user.UserService;
+import com.monaum.Money_Management.module.auth.LogoutService;
+import com.monaum.Money_Management.module.user.UserService;
+import jakarta.annotation.PostConstruct;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.security.Security;
+
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Configuration
 @EnableWebSecurity
@@ -31,18 +39,25 @@ public class SecurityConfiguration {
 	@Autowired private CustomAccessDeniedHandler accessDeniedHandler;
 	@Autowired private CustomAuthenticationEntryPoint authenticationEntryPoint;
 
-	private static final String[] WHITE_LIST_URL = new String[] {
-			"/api/v1/auth/**",
-	};
-
-	// Define PasswordEncoder Bean
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	private static final String[] WHITE_LIST_URL = new String[] {
+			"/api/v1/auth/**",
+			"/api/v1/ws/**",
+			"/api/v1/notifications/**"
+	};
+
+	@PostConstruct
+	public void setupBouncyCastle() {
+		if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+			Security.addProvider(new BouncyCastleProvider());
+		}
+	}
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -66,18 +81,16 @@ public class SecurityConfiguration {
 		return http.build();
 	}
 
-	// AuthenticationProvider Bean with PasswordEncoder
 	@Bean
-	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(usersService);
+	AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(usersService);
 		authenticationProvider.setPasswordEncoder(passwordEncoder());
 		return authenticationProvider;
 	}
 
-	// AuthenticationManager Bean
+
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
 	}
 }

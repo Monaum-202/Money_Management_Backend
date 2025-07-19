@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.user;
+package com.monaum.Money_Management.module.user;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

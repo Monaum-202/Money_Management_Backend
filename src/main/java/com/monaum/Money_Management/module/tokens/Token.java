@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.tokens;
+package com.monaum.Money_Management.module.tokens;
 
 import java.io.Serializable;
 
@@ -18,6 +18,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Data
 @Entity

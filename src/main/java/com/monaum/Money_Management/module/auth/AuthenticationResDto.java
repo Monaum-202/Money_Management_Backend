@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.auth;
+package com.monaum.Money_Management.module.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
 @Data
 @Builder

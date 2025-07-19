@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.security.user;
+package com.monaum.Money_Management.module.user;
 
 import java.util.Date;
 
@@ -27,12 +27,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = true)
-public class User extends AbstractModel<Long> {
+public class User extends AbstractModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+
+	@Column(name = "user_name", length = 50, unique = true, nullable = false)
+	private String userName;
 
 	@Column(name = "email", length = 255, unique = true, nullable = false)
 	private String email;

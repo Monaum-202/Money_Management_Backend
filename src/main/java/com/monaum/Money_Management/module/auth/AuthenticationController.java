@@ -1,5 +1,6 @@
-package com.monaum.Money_Management.security.auth;
+package com.monaum.Money_Management.module.auth;
 
+import com.monaum.Money_Management.annotations.RestApiController;
 import com.monaum.Money_Management.enums.ResponseStatusType;
 import com.monaum.Money_Management.model.ResponseBuilder;
 import com.monaum.Money_Management.model.SuccessResponse;
@@ -14,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
+/**
+ * Monaum Hossain
+ * @since jul 18, 2025
+ */
 
-@RestController
+@RestApiController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
 
