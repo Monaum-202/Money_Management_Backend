@@ -21,8 +21,8 @@ Post localhost:9090/api/v1/auth/authenticate
 }
 
 
-Income
-Post localhost:9090/api/incomes
+Transaction
+Post localhost:9090/api/transactions
 
 Authorization: Bearer <access_token>
 Content-Type: application/json
@@ -36,5 +36,5 @@ Content-Type: application/json
   "date": "2025-07-15"
 }
 
-GET localhost:9090/api/incomes
+GET localhost:9090/api/transactions
 Authorization: Bearer <access_token>

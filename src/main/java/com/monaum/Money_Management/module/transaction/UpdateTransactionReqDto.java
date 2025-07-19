@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.module.incomes;
+package com.monaum.Money_Management.module.transaction;
 
 
 import jakarta.validation.constraints.*;
@@ -18,9 +18,9 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateIncomeReqDto {
+public class UpdateTransactionReqDto {
 
-    @NotNull(message = "Income ID is required.")
+    @NotNull(message = "Transaction ID is required.")
     private Long id;
 
     @NotNull(message = "Source ID is required.")

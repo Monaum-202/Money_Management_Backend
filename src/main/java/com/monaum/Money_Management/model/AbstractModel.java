@@ -1,11 +1,12 @@
 package com.monaum.Money_Management.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.monaum.Money_Management.config.SecurityUtil;
 import com.monaum.Money_Management.module.user.User;
 import com.monaum.Money_Management.module.user.UserRepo;
 import com.monaum.Money_Management.security.UserDetailsImpl;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,21 @@ import java.util.Optional;
  * @since jul 18, 2025
  */
 
-@Data
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true) // Safe version
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class AbstractModel implements Serializable {
 
+	@JsonIgnore
 	@CreatedBy
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "created_by", updatable = false)
 	private User createdBy;
 
+	@JsonIgnore
 	@LastModifiedBy
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "updated_by")
@@ -48,12 +54,4 @@ public abstract class AbstractModel implements Serializable {
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
-	// Setters
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public void setUpdatedBy(User updatedBy) {
-		this.updatedBy = updatedBy;
-	}
 }

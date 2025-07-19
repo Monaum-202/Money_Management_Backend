@@ -1,5 +1,6 @@
-package com.monaum.Money_Management.module.incomes;
+package com.monaum.Money_Management.module.transaction;
 
+import com.monaum.Money_Management.enums.TransactionType;
 import com.monaum.Money_Management.model.AbstractModel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,20 +12,24 @@ import java.time.LocalDate;
  * @since jul 18, 2025
  */
 
-@Data
+@Getter
+@Setter
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "incomes")
+@Table(name = "transactions")
 @EqualsAndHashCode(callSuper = true)
-public class Income extends AbstractModel {
+public class Transaction extends AbstractModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "transaction_type", nullable = false, length = 10)
+    private TransactionType type;
 
     @Column(name = "source_id", nullable = false)
     private Long source;

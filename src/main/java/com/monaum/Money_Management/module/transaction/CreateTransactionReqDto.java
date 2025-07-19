@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.module.incomes;
+package com.monaum.Money_Management.module.transaction;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +19,10 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateIncomeReqDto {
+public class CreateTransactionReqDto {
+
+    @NotBlank(message = "Transaction type required.")
+    private  String transactionType;
 
     @NotNull(message = "Source required.")
     private Long source;

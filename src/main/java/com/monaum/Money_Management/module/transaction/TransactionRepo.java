@@ -1,7 +1,6 @@
-package com.monaum.Money_Management.module.incomes;
+package com.monaum.Money_Management.module.transaction;
 
 import com.monaum.Money_Management.module.user.User;
-import jdk.jfr.Registered;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public interface IncomeRepo extends JpaRepository<Income, Long> {
+public interface TransactionRepo extends JpaRepository<Transaction, Long> {
 
-    Page<Income> findAllByCreatedBy(User createdBy, Pageable pageable);
+    Page<Transaction> findAllByCreatedBy(User createdBy, Pageable pageable);
 }

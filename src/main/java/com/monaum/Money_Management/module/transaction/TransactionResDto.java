@@ -1,4 +1,4 @@
-package com.monaum.Money_Management.module.incomes;
+package com.monaum.Money_Management.module.transaction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class IncomeResDto {
+public class TransactionResDto {
 
     private Long id;
+    private String transactionType;
     private String source;
     private String wallet;
     private Double amount;
