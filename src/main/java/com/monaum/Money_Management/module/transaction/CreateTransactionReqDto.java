@@ -1,5 +1,6 @@
 package com.monaum.Money_Management.module.transaction;
 
+import com.monaum.Money_Management.enums.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,13 +17,12 @@ import java.time.LocalDate;
  */
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTransactionReqDto {
 
     @NotBlank(message = "Transaction type required.")
-    private  String transactionType;
+    private TransactionType transactionType;
 
     @NotNull(message = "Source required.")
     private Long source;

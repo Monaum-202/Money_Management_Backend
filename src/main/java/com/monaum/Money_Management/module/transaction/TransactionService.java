@@ -29,6 +29,9 @@ public class TransactionService {
             Transaction transaction = transactionMapper.toEntity(reqDto);
             transaction = transactionRepo.save(transaction);
 
+            Transaction sss = new Transaction();
+            sss.setTransactionType(transaction.getTransactionType());
+
             return transactionMapper.toDto(transaction);
     }
 

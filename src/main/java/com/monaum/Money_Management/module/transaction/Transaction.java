@@ -4,6 +4,7 @@ import com.monaum.Money_Management.enums.TransactionType;
 import com.monaum.Money_Management.model.AbstractModel;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -12,10 +13,8 @@ import java.time.LocalDate;
  * @since jul 18, 2025
  */
 
-@Getter
-@Setter
+@Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "transactions")
@@ -29,7 +28,7 @@ public class Transaction extends AbstractModel {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type", nullable = false, length = 10)
-    private TransactionType type;
+    private TransactionType transactionType;
 
     @Column(name = "source_id", nullable = false)
     private Long source;
