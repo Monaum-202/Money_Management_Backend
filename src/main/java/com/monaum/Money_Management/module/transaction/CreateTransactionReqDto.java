@@ -22,7 +22,7 @@ import java.time.LocalDate;
 public class CreateTransactionReqDto {
 
     @NotBlank(message = "Transaction type required.")
-    private TransactionType transactionType;
+    private String transactionType;
 
     @NotNull(message = "Source required.")
     private Long source;
